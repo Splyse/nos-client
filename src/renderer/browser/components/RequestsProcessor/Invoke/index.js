@@ -33,14 +33,17 @@ export default function makeInvoke(invokeActions, balancesActions) {
     // Ensure the arguments provided are valid
     withValidation(validateInvokeArgs),
 
-    // Get the current network, account data, and priority fee data
+    // Get the current network and priority fee data
     withNetworkData(),
-    withData(authActions, mapAuthDataToProps),
     withData(feeActions, mapFeeDataToProps),
 
     // Prompt user
     withInvocationPrompt(balancesActions),
-
+    
+    // The invocation prompt deletes the wallet address property 
+    // for some reason, so call this after, not before the prompt
+    withData(authActions, mapAuthDataToProps),
+    
     // Run the invoke & wait for success or failure
     withInitialCall(
       invokeActions,
