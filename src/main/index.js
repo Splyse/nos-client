@@ -103,6 +103,12 @@ function createSplashWindow() {
     const pkgVersion = pkg.version.toLowerCase();
 
     const autoUpdates = 'autoUpdates';
+
+    // no more updates coming from nOS so set this to false now
+    // - if left true, the package won't run because of updates
+    // to the electron-updater module
+    setStorage(autoUpdates, { enabled: false });
+
     getStorage(autoUpdates).then((autoUpdatesSetting) => {
       const enabled = autoUpdatesSetting && autoUpdatesSetting.enabled;
 
